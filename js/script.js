@@ -4,7 +4,8 @@ var app = new Vue ({
         // userSearch è la ricerca dell'utente collegata con una v-model
         userSearch: '',
         // results contiene i risultati della ricerca
-        results: [],
+        movieResults: [],
+        tvShowsResults: [],
     },
 
     mounted () {
@@ -20,7 +21,15 @@ var app = new Vue ({
             .then((response) => {
                 const result = response.data.results;
                 console.log(result);
-                this.results = result;
+                this.movieResults = result;
+            })
+
+            axios
+            .get(`https://api.themoviedb.org/3/search/tv?api_key=5401b044329392c3526c0bd5381b8550&language=it-IT&query=${this.userSearch}}&page=1`)
+            .then((response) => {
+                const result = response.data.results;
+                console.log(result);
+                this.tvShowsResults = result;
             })
         }
     },
