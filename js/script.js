@@ -3,10 +3,8 @@ var app = new Vue ({
     data: {
         // userSearch è la ricerca dell'utente collegata con una v-model
         userSearch: '',
-        // movieResults contiene i risultati della ricerca relativi ai film
-        movieResults: [],
-        // tvShowsResults contiene i risultati della ricerca relativi ai film
-        tvShowsResults: [],
+        // searchResults contiene i risultati della ricerca
+        searchResults: [],
         
     },
 
@@ -19,19 +17,10 @@ var app = new Vue ({
             // console.log(this.userSearch);
 
             axios
-            .get(`https://api.themoviedb.org/3/search/movie?api_key=5401b044329392c3526c0bd5381b8550&language=it-IT&query=${this.userSearch}}&page=1`)
+            .get(`https://api.themoviedb.org/3/search/multi?api_key=5401b044329392c3526c0bd5381b8550&language=it-IT&query=${this.userSearch}}&page=1`)
             .then((response) => {
                 const result = response.data.results;
-                // console.log(result);
-                this.movieResults = result;
-            })
-
-            axios
-            .get(`https://api.themoviedb.org/3/search/tv?api_key=5401b044329392c3526c0bd5381b8550&language=it-IT&query=${this.userSearch}}&page=1`)
-            .then((response) => {
-                const result = response.data.results;
-                // console.log(result);
-                this.tvShowsResults = result;
+                this.searchResults = result;
             })
         },
 

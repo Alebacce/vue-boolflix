@@ -18,6 +18,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
         integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w=="
         crossorigin="anonymous" />
+    <!-- Flag CSS -->
+    <link rel="stylesheet" href="assets/docs.css">
+    <link rel="stylesheet" href="css/flag-icon.css">
     <!-- Style.css -->
     <link rel="stylesheet" href="css/style.css">
     <title>Boolflix</title>
@@ -34,61 +37,59 @@
             @keyup="searchMovie()"
             id="movie" 
             type="text">
-            <button @click="getFlag()" >TEST</button>
         </div>
 
-        <!-- Page without searches -->
-        <div v-if="movieResults.length == 0 && tvShowsResults.length == 0" class="empty">
+        <!-- Page Without Searches -->
+        <div v-if="searchResults.length == 0" class="empty">
             Abbiamo ogni film e serie TV, cerca quello che vuoi!
         </div>
 
-        <!-- Page with searches -->
+        <!-- Page With Searches -->
         <div v-else class="search-result">
 
-            <!-- Movies -->
-            <ul v-for="movie in movieResults">
+            <!-- Search Result -->
+            <ul v-for="show in searchResults">
                 <li>
-                    Titolo: {{ movie.title }}
+                    {{show.media_type}}
                 </li>
-                <li>
-                    Titolo originale: {{ movie.original_title }}
-                </li>
-                <li>
-                    Audio orginale:
-                    <div class="flag-container">
-                        {{movie.original_language}}
-                        <img class="flag" :src="'img/flag/' + movie.original_language + '.svg'">
-                    </div>
-                </li>
-                <li>
-                    Voto: {{ movie.vote_average }}
-                </li>
-            </ul>
 
-            <!-- TV Shows -->
-            <ul v-for="show in tvShowsResults">
-                <li>
+                <!-- Movie Title -->
+                <li v-if="show.media_type == 'movie'">
+                    Titolo: {{ show.title }}
+                </li>
+
+                <!-- TV Show Title -->
+                <li v-else>
                     {{ show.name }}
                 </li>
-                <li>
+
+                <!-- Movie Original Title -->
+                <li v-if="show.media_type == 'movie'">
+                    Titolo originale: {{ show.original_title }}
+                </li>
+
+                <!-- TV Show Original Title -->
+                <li v-else>
                     {{ show.original_name }}
                 </li>
+
+                <!-- Original Language -->
                 <li>
                     Audio orginale:
-                    {{show.original_language}}
-                    <div class="flag-container">
-                        <img class="flag" :src="'img/flag/' + show.original_language + '.svg'">
-                    </div>
+                        {{show.original_language}}
+                    <span class="flag-icon" :class="'flag-icon-' + lang[show.original_language]"></span>
                 </li>
+
+                <!-- Vote Average -->
                 <li>
-                    {{ show.vote_average }}
+                    Voto: {{ show.vote_average }}
                 </li>
             </ul>
-        </div>
-        <!-- END Page with searches -->
     </div>
     <!-- END Wrapper -->
 
+    <!-- Flag JS -->
+    <script src="js/lang-flag.js"></script>
     <!-- Day.js -->
     <script src="https://unpkg.com/dayjs@1.8.21/dayjs.min.js"></script>
     <!-- JS -->
