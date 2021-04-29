@@ -24,7 +24,9 @@
 </head>
 
 <body>
-    <div id="root">
+    <!-- Wrapper -->
+    <div id="root" class="wrapper">
+        <!-- Searchbar -->
         <div class="search">
             <label for="movie">Cerca</label>
             <input 
@@ -32,23 +34,38 @@
             @keyup="searchMovie()"
             id="movie" 
             type="text">
+            <button @click="getFlag()" >TEST</button>
         </div>
-        <div class="movies">
+
+        <!-- Page without searches -->
+        <div v-if="movieResults.length == 0 && tvShowsResults.length == 0" class="empty">
+            Abbiamo ogni film e serie TV, cerca quello che vuoi!
+        </div>
+
+        <!-- Page with searches -->
+        <div v-else class="search-result">
+
+            <!-- Movies -->
             <ul v-for="movie in movieResults">
                 <li>
-                    {{ movie.title }}
+                    Titolo: {{ movie.title }}
                 </li>
                 <li>
-                    {{ movie.original_title }}
+                    Titolo originale: {{ movie.original_title }}
                 </li>
                 <li>
-                    {{ movie.original_language }}
+                    Audio orginale:
+                    <div class="flag-container">
+                        {{movie.original_language}}
+                        <img class="flag" :src="'img/flag/' + movie.original_language + '.svg'">
+                    </div>
                 </li>
                 <li>
-                    {{ movie.vote_average }}
+                    Voto: {{ movie.vote_average }}
                 </li>
             </ul>
 
+            <!-- TV Shows -->
             <ul v-for="show in tvShowsResults">
                 <li>
                     {{ show.name }}
@@ -57,14 +74,20 @@
                     {{ show.original_name }}
                 </li>
                 <li>
-                    {{ show.original_language }}
+                    Audio orginale:
+                    {{show.original_language}}
+                    <div class="flag-container">
+                        <img class="flag" :src="'img/flag/' + show.original_language + '.svg'">
+                    </div>
                 </li>
                 <li>
                     {{ show.vote_average }}
                 </li>
             </ul>
         </div>
+        <!-- END Page with searches -->
     </div>
+    <!-- END Wrapper -->
 
     <!-- Day.js -->
     <script src="https://unpkg.com/dayjs@1.8.21/dayjs.min.js"></script>

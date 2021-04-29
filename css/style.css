@@ -12,9 +12,31 @@ img {
 
 ul {
     list-style-type: none;
+    /* TEST */
+    background-color: antiquewhite;
+    margin-bottom: 25px;
 }
 
 /* ---- COMMON ---- */
 body {
     font-family: 'Open Sans', Arial, Helvetica, sans-serif;
 }
+
+.wrapper {
+    /* TEST */
+    padding: 20px;
+}
+
+/* Searchbar */
+.search {
+    /* TEST */
+    margin-bottom: 25px;
+}
+
+.flag-container {
+    width: 25px;
+}
+
+/* .flag {
+    vertical-align: middle;
+} */
