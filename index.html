@@ -76,48 +76,44 @@
                 <!-- Original Language -->
                 <li v-if="show.media_type == 'tv' || show.media_type == 'movie'">
                     Audio orginale:
-                        {{show.original_language}}
                     <span class="flag-icon" :class="'flag-icon-' + lang[show.original_language]"></span>
                 </li>
 
+                <!-- Movie Year -->
                 <li v-if="show.media_type == 'movie'">
                     Anno: 
                     {{show.release_date.slice(0, 4)}}
                 </li>
 
+                <!-- TV Show Year -->
                 <li v-if="show.media_type == 'tv'">
                     Anno:
                     {{show.first_air_date.slice(0, 4)}}
                 </li>
 
-                <!-- Vote Average -->
+                <!-- Vote Stars -->
                 <li v-if="show.media_type == 'tv' || show.media_type == 'movie'">
-                    <span>
-                        <!-- {{ voteInStars(show.vote_average) }} -->
                         <i class="fas fa-star" :class="{'color-yellow': voteInStars(show.vote_average) >= 1}"></i>
                         <i class="fas fa-star" :class="{'color-yellow': voteInStars(show.vote_average) >= 2}"></i>
                         <i class="fas fa-star" :class="{'color-yellow': voteInStars(show.vote_average) >= 3}"></i>
                         <i class="fas fa-star" :class="{'color-yellow': voteInStars(show.vote_average) >= 4}"></i>
                         <i class="fas fa-star" :class="{'color-yellow': voteInStars(show.vote_average) == 5}"></i> 
-                    </span>
 
+                </li>
+
+                <!-- Overview -->
                 <li v-if="show.media_type == 'tv' || show.media_type == 'movie'">
                     {{ show.overview }}
                 </li>
 
-                    <!-- :class="{'color-yellow':show,vote_average >= 1}" -->
-
-                    <!-- <i class="fas fa-star" :class="{'color-yellow': show,vote_average >= 1}"></i>
-                    <i class="fas fa-star" :class="{'color-yellow': showVote >= 2}"></i>
-                    <i class="fas fa-star" :class="{'color-yellow': showVote >= 3}"></i>
-                    <i class="fas fa-star" :class="{'color-yellow': showVote >= 4}"></i>
-                    <i class="fas fa-star" :class="{'color-yellow': showVote >= 5}"></i> -->
-                </li>
-
+                <!-- Poster -->
                 <li v-if="show.media_type == 'tv' || show.media_type == 'movie'">
                     <img :src="'https://image.tmdb.org/t/p/w342' + show.poster_path" alt="Image not found">
                 </li>
             </ul>
+            <!--END Search Result -->
+        </div>
+        <!-- Page With Searches -->
     </div>
     <!-- END Wrapper -->
 
