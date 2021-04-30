@@ -5,7 +5,7 @@ var app = new Vue ({
         userSearch: '',
         // searchResults contiene i risultati della ricerca
         searchResults: [],
-        showVote: 0,
+        // showVote: 0,
         // thisShow: 0
         
     },
@@ -37,32 +37,51 @@ var app = new Vue ({
             })
             // this.voteToStar()
             // console.log('In searchMovie', this.showVote);
-            let defVote = this.voteToStar(this.showVote);
-            console.log(defVote)
-            
-            
         },
 
-        voteToStar(vote) {
-            // Itero l'array dei risultati di ricerca per ottenere  i
-            // suoi elements interni
-            if ( this.searchResults.length > 0) {
-                this.searchResults.forEach((element, index) => {
-                // Mi salvo l'elemento in una variabile
-                let thisShow = element[index];
-                console.log('thisShow nella funzione',thisShow);
+        voteInStars(vote) {
+            const halfVote = vote / 2;
+            let voteIn5 = this.roundUp(halfVote, 0);
+            console.log(voteIn5);
+            return voteIn5;
+        },
 
-                // Salvo il voto dello show in una variabile
-                let showVote1To10 = thisShow[index].vote_average;
-                // Divido il voto per due
-                let showVoteHalf = showVote1To10 / 2;
-                // Lo arrotondo per decimale
-                let voteRoundedUp = this.roundUp(showVoteHalf, 0);
-                vote = voteRoundedUp;
-                // Ritorno il voto in decimali
-                return vote;
-                });
-            }
+        // ------------------------------------------------------
+        roundUp(num, precision) {
+                precision = Math.pow(10, precision)
+                return Math.ceil(num * precision) / precision
+                }
+        // ------------------------------------------------------
+
+
+
+
+        // ------------------------------------------------------
+        // voteToStar(vote) {
+        //     // Itero l'array dei risultati di ricerca per ottenere  i
+        //     // suoi elements interni
+        //     if ( this.searchResults.length > 0) {
+        //         this.searchResults.forEach((element, index) => {
+        //         // Mi salvo l'elemento in una variabile
+        //         let thisShow = element[index];
+        //         console.log('thisShow nella funzione',thisShow);
+
+        //         // Salvo il voto dello show in una variabile
+        //         let showVote1To10 = thisShow[index].vote_average;
+        //         // Divido il voto per due
+        //         let showVoteHalf = showVote1To10 / 2;
+        //         // Lo arrotondo per decimale
+        //         let voteRoundedUp = this.roundUp(showVoteHalf, 0);
+        //         vote = voteRoundedUp;
+        //         // Ritorno il voto in decimali
+        //         return vote;
+        //         });
+        //     }
+
+        // ------------------------------------------------------
+
+
+
                 // this.showVote = voteRoundedUp;
                 // console.log('Nella funzione', this.showVote);
             //     this.thisShow = index
@@ -72,12 +91,7 @@ var app = new Vue ({
             // let voteRoundedUp = this.roundUp(showVoteHalf, 0);
             // this.showVote = voteRoundedUp;
             // console.log('Nella funzione', this.showVote);
-            },
-
-        roundUp(num, precision) {
-                precision = Math.pow(10, precision)
-                return Math.ceil(num * precision) / precision
-                }
+            // },
         
     },
 
