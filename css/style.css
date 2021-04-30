@@ -5,12 +5,30 @@
     box-sizing: border-box;
 }
 
+img {
+    display: block;
+}
+
 ul {
     list-style-type: none;
-    /* TEST */
-    background-color: antiquewhite;
-    margin-bottom: 25px;
 }
+
+
+
+/* ---- SCROLLBAR ----- */
+*::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+*::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+    background: #535353;
+}
+
 
 
 /* ---- COMMON ---- */
@@ -22,18 +40,29 @@ body {
     display: flex;
     flex-direction: column;
     height: 100vh;
+
+    background: rgb(0,0,0);
+    background: -moz-linear-gradient(180deg, rgba(0,0,0,1) 0%, rgba(20,20,20,1) 33%);
+    background: -webkit-linear-gradient(180deg, rgba(0,0,0,1) 0%, rgba(20,20,20,1) 33%);
+    background: linear-gradient(180deg, rgba(0,0,0,1) 0%, rgba(20,20,20,1) 33%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#000000",endColorstr="#141414",GradientType=1);
+
+    /* Old Gradient just in case */
+    /* background: rgb(0,0,0);
+    background: linear-gradient(180deg, rgba(0,0,0,1) 0%, rgba(36,36,36,1) 35%, rgba(67,67,67,1) 100%); */
 }
 
 .default-container {
-    width: 92%;
+    width: 95%;
     margin: 0 auto;
 }
+
 
 
 /* HEADER */
 header {
     padding: 20px 0;
-    background-color: black;
+    background-color: transparent;
 }
 
 header .default-container {
@@ -48,7 +77,6 @@ header .default-container {
 
 .logo img {
     width: 100%;
-    display: block;
 }
 
 /* Searchbar */
@@ -86,24 +114,129 @@ header .default-container {
 /* END HEADER */
 
 
+
 /* MAIN */
 main {
     flex-grow: 1;
-    background-color: grey;
+    background-color: transparent;
     overflow-y: auto;
 }
-/* Search Results */
-/* .search-result ul {
+
+/* Empty page */
+.empty-container {
+    margin-top: 200px;
+    text-align: center;
+    color: white;
+}
+
+.landing-text {
+    font-size: 50px;
+}
+
+.boolean-logo {
+    margin-top: 20px;
+}
+
+.small-text {
+    font-size: 25px;
+}
+
+.boolean-logo img {
+    margin: 0 5px;
+    width: 30px;
     display: inline-block;
-} */
+    vertical-align: text-bottom;
+}
+
+.except {
+    position: absolute;
+    font-size: 12px;
+    font-weight: 400;
+    bottom: 7px;
+    right: 20px;
+}
+
+/* Page with results */
+.search-text {
+    width: 100%;
+    text-align: center;
+    color: white;
+    font-size: 40px;
+    font-weight: 600;
+    margin-bottom: 30px;
+}
+
+.search-results {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+.search-results ul {
+    margin-right: 10px;
+    margin-bottom: 40px;
+    width: 342px;
+    height: 513px;
+}
+
+.show-info-ul {
+    overflow: hidden;
+}
+
+.show-poster {
+    position: relative;
+    height: 513px;
+}
+
+.show-poster img {
+    height: 100%;
+}
+
+.infos {
+    display: none;
+    padding: 25px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    overflow-x: hidden;
+
+    background-color: rgba(0, 0, 0, 0.9);
+    color: white;
+    font-weight: 400;
+}
+
+.infos li {
+    margin-bottom: 10px;
+}
+
+.info-text {
+    font-weight: 700;
+}
+
+.original-audio {
+    margin-right: 3px;
+}
 
 .star {
-    color: grey;
-}
-.color-yellow {
-    color: #ffc400;
+    color: #464646;
 }
 
+.color-yellow {
+    color: white;
+}
+
+.show-info-ul:hover {
+    transition: all .2s ease-in-out;
+    transform: scale(1.1);
+    z-index: 1;
+}
+
+.show-info-ul:hover .infos{
+    display: block;
+}
+
+/* inputs' rules are here on the bottom to avoid 
+override problems */
 input:focus {
     outline: none;
     border: 2px solid #db202c;

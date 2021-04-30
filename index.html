@@ -23,7 +23,7 @@
     <!-- Flag CSS -->
     <link rel="stylesheet" href="assets/docs.css">
     <link rel="stylesheet" href="css/flag-icon.css">
-    <!-- Style.css -->
+    <!-- Custom CSS -->
     <link rel="stylesheet" href="css/style.css">
     <title>Boolflix</title>
 </head>
@@ -46,7 +46,7 @@
                         <i class="fas fa-search"></i>
                     </div>
                     <input v-model="userSearch" 
-                    @keyup.enter="searchShow()" 
+                    @keyup="searchShow()"
                     id="movie" 
                     type="text"
                     placeholder="Serie TV, film">
@@ -57,95 +57,117 @@
 
         <!-- MAIN -->
         <main>
-            <div class="default-container">
-                <!-- Page Without Searches -->
-                <div v-if="searchResults.length == 0" class="empty">
-                    Abbiamo ogni film e serie TV, cerca quello che vuoi!
+            <!-- Page Without Searches -->
+            <div v-if="searchResults.length == 0" class="empty-container">
+                <div class="landing-text">
+                    Abbiamo ogni film e serie TV, cerca quello che vuoi!*
                 </div>
-                
+                <div class="boolean-logo">
+                    <span class="small-text">powered by</span>
+                    <a href="https://github.com/Alebacce">
+                        <img src="img/github-logo-white.png" alt="Boolean Logo">
+                    </a>
+                    <span class="small-text">@Alebacce</span>
+                </div>
+                <div class="except">
+                    *Tranne The Witcher a quanto pare
+                </div>
+            </div>
+
+            <div v-else class="default-container">
                 <!-- Page With Searches -->
-                <div v-else class="search-result">
-                
-                    <!-- Search Result -->
-                    <ul v-for="(show, index) in searchResults" v-if="show.poster_path">
-                
-                        <!-- Movie Title -->
-                        <li v-if="show.media_type == 'movie'">
-                            Titolo: {{ show.title }}
-                        </li>
-                
-                        <!-- TV Show Title -->
-                        <li v-if="show.media_type == 'tv'">
-                            Titolo: {{ show.name }}
-                        </li>
-                
-                        <!-- Movie Original Title -->
-                        <li v-if="show.media_type == 'movie' && show.original_title != show.title">
-                            Titolo originale: {{ show.original_title }}
-                        </li>
-                
-                        <!-- TV Show Original Title -->
-                        <li v-if="show.media_type == 'tv' && show.original_name != show.name">
-                            Titolo originale: {{ show.original_name }}
-                        </li>
-                
-                        <!-- Original Language -->
-                        <li v-if="show.media_type == 'tv' || show.media_type == 'movie'">
-                            Audio orginale:
-                            <span class="flag-icon" :class="'flag-icon-' + lang[show.original_language]"></span>
-                        </li>
-                
-                        <!-- Movie Year -->
-                        <li v-if="show.media_type == 'movie'">
-                            Anno:
-                            {{show.release_date.slice(0, 4)}}
-                        </li>
-                
-                        <!-- TV Show Year -->
-                        <li v-if="show.media_type == 'tv'">
-                            Anno:
-                            {{show.first_air_date.slice(0, 4)}}
-                        </li>
-                
-                        <!-- Vote Stars -->
-                        <li v-if="show.media_type == 'tv' || show.media_type == 'movie'">
-                            <!-- Single Star -->
-                            <span class="star">
-                                <i class="fas fa-star" :class="{'color-yellow': voteInStars(show.vote_average) >= 1}"></i>
-                            </span>
-                
-                            <!-- Single Star -->
-                            <span class="star">
-                                <i class="fas fa-star" :class="{'color-yellow': voteInStars(show.vote_average) >= 2}"></i>
-                            </span>
-                
-                            <!-- Single Star -->
-                            <span class="star">
-                                <i class="fas fa-star" :class="{'color-yellow': voteInStars(show.vote_average) >= 3}"></i>
-                            </span>
-                
-                            <!-- Single Star -->
-                            <span class="star">
-                                <i class="fas fa-star" :class="{'color-yellow': voteInStars(show.vote_average) >= 4}"></i>
-                            </span>
-                
-                            <!-- Single Star -->
-                            <span class="star">
-                                <i class="fas fa-star" :class="{'color-yellow': voteInStars(show.vote_average) >= 5}"></i>
-                            </span>
-                        </li>
-                
-                        <!-- Overview -->
-                        <li v-if="show.media_type == 'tv' || show.media_type == 'movie'">
-                            {{ show.overview }}
-                        </li>
-                
-                        <!-- Poster -->
-                        <li v-if="show.media_type == 'tv' || show.media_type == 'movie'">
-                            <img :src="'https://image.tmdb.org/t/p/w342' + show.poster_path" alt="Image not found">
-                        </li>
-                    </ul>
-                    <!--END Search Result -->
+                <div class="search-results">
+                    <div class="search-text">
+                        I risultati della tua ricerca per "{{userSearch}}"
+                    </div>
+                        <!-- Search Result -->
+                        <ul v-for="(show, index) in searchResults" 
+                        v-if="show.poster_path"
+                        class="show-info-ul">
+
+                            
+                        
+                            <!-- Poster -->
+                            <li v-if="show.media_type == 'tv' || show.media_type == 'movie'" class="show-poster">
+                                <img :src="'https://image.tmdb.org/t/p/w342' + show.poster_path" alt="Image not found">
+                            <ul class="infos">
+                                <!-- Movie Title -->
+                                <li v-if="show.media_type == 'movie'">
+                                    <span class="info-text">Titolo:</span> {{ show.title }}
+                                </li>
+                            
+                                <!-- TV Show Title -->
+                                <li v-if="show.media_type == 'tv'">
+                                    <span class="info-text">Titolo:</span> {{ show.name }}
+                                </li>
+                            
+                                <!-- Movie Original Title -->
+                                <li v-if="show.media_type == 'movie' && show.original_title != show.title">
+                                    <span class="info-text">Titolo originale</span> {{ show.original_title }}
+                                </li>
+                            
+                                <!-- TV Show Original Title -->
+                                <li v-if="show.media_type == 'tv' && show.original_name != show.name">
+                                    <span class="info-text">Titolo originale:</span> {{ show.original_name }}
+                                </li>
+                            
+                                <!-- Original Language -->
+                                <li v-if="show.media_type == 'tv' || show.media_type == 'movie'">
+                                    <span class="info-text original-audio">Audio originale:</span>
+                                    <span class="flag-icon" :class="'flag-icon-' + lang[show.original_language]"></span>
+                                </li>
+                            
+                                <!-- Movie Year -->
+                                <li v-if="show.media_type == 'movie'">
+                                    <span class="info-text">Anno:</span>
+                                    {{show.release_date.slice(0, 4)}}
+                                </li>
+                            
+                                <!-- TV Show Year -->
+                                <li v-if="show.media_type == 'tv'">
+                                    {{show.first_air_date.slice(0, 4)}}
+                                </li>
+                            
+                                <!-- Vote Stars -->
+                                <li v-if="show.media_type == 'tv' || show.media_type == 'movie'">
+                                    <!-- Stras Container -->
+                                    <div class="stars">
+                            
+                                        <!-- Single Star -->
+                                        <span class="star">
+                                            <i class="fas fa-star" :class="{'color-yellow': voteInStars(show.vote_average) >= 1}"></i>
+                                        </span>
+                            
+                                        <!-- Single Star -->
+                                        <span class="star">
+                                            <i class="fas fa-star" :class="{'color-yellow': voteInStars(show.vote_average) >= 2}"></i>
+                                        </span>
+                            
+                                        <!-- Single Star -->
+                                        <span class="star">
+                                            <i class="fas fa-star" :class="{'color-yellow': voteInStars(show.vote_average) >= 3}"></i>
+                                        </span>
+                            
+                                        <!-- Single Star -->
+                                        <span class="star">
+                                            <i class="fas fa-star" :class="{'color-yellow': voteInStars(show.vote_average) >= 4}"></i>
+                                        </span>
+                            
+                                        <!-- Single Star -->
+                                        <span class="star">
+                                            <i class="fas fa-star" :class="{'color-yellow': voteInStars(show.vote_average) >= 5}"></i>
+                                        </span>
+                                    </div>
+                                </li>
+                            
+                                <!-- Overview -->
+                                <li v-if="show.media_type == 'tv' || show.media_type == 'movie'">
+                                    {{ show.overview }}
+                                </li>
+                            </ul>
+                            </li>
+                        </ul>
+                        <!--END Search Result -->
                 </div>
                 <!-- Page With Searches -->
             </div>
