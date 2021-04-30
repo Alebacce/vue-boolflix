@@ -22,6 +22,16 @@ var app = new Vue ({
             // axios
             //     .get(`https://api.themoviedb.org/3/movie/{movie_id}/credits?api_key=5401b044329392c3526c0bd5381b8550&language=it-IT`)
         },
+        
+        // getMediaType() improves the details in media_type and
+        // translates them in italian
+        getMediaType(type) {
+            if (type == 'movie') {
+                return 'film'
+            } else if (type == 'tv') {
+                return 'serie TV'
+            }
+        },
 
         // voteInStars() transfrom the original vote from 1 to 10 to 1 to 5
         // without decimals

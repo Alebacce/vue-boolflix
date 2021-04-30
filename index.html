@@ -91,6 +91,10 @@
                             <li v-if="show.media_type == 'tv' || show.media_type == 'movie'" class="show-poster">
                                 <img :src="'https://image.tmdb.org/t/p/w342' + show.poster_path" alt="Image not found">
                             <ul class="infos">
+                                <!-- Media Type: Film or Tv-Show -->
+                                <li>
+                                    <span class="media-type">{{ getMediaType(show.media_type) }}</span>
+                                </li>
                                 <!-- Movie Title -->
                                 <li v-if="show.media_type == 'movie'">
                                     <span class="info-text">Titolo:</span> {{ show.title }}

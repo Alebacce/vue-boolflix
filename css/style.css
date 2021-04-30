@@ -172,6 +172,7 @@ main {
     justify-content: center;
     flex-wrap: wrap;
 }
+
 .search-results ul {
     margin-right: 10px;
     margin-bottom: 40px;
@@ -211,6 +212,12 @@ main {
 
 .info-text {
     font-weight: 700;
+}
+
+.media-type {
+    font-size: 25px;
+    font-weight: 300;
+    text-transform: capitalize;
 }
 
 .original-audio {
