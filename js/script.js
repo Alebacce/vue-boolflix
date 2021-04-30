@@ -10,8 +10,8 @@ var app = new Vue ({
     },
 
     methods: {
-        // searchMovie() call TheAovieDB API and populates searchResults array
-        searchMovie() {
+        // searchShow() call TheAovieDB API and populates searchResults array
+        searchShow() {
             axios
             .get(`https://api.themoviedb.org/3/search/multi?api_key=5401b044329392c3526c0bd5381b8550&language=it-IT&query=${this.userSearch}}&page=1`)
             .then((response) => {
@@ -33,7 +33,7 @@ var app = new Vue ({
         roundUp(num, precision) {
                 precision = Math.pow(10, precision)
                 return Math.ceil(num * precision) / precision
-                }
+        }
 
         
     },
