@@ -5,10 +5,10 @@
     box-sizing: border-box;
 }
 
-img {
+/* img {
     width: 100%;
     display: block;
-}
+} */
 
 ul {
     list-style-type: none;
@@ -33,6 +33,10 @@ body {
     margin-bottom: 25px;
 }
 
+/* Search Results */
+/* .search-result ul {
+    display: inline-block;
+} */
 /* .flag-container {
     width: 25px;
 } */
@@ -40,3 +44,7 @@ body {
 /* .flag {
     vertical-align: middle;
 } */
+
+.color-yellow {
+    color: yellow;
+}
