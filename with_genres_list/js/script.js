@@ -81,6 +81,7 @@ var app = new Vue ({
                     // this.searchResults.forEach(element => {
                     //     if(this.searchResults.element.id == this.genresName);
                     })
+                    return newArray;
                 });
         },
 
