@@ -11,7 +11,10 @@ var app = new Vue ({
         // thisMovie takes the index of a movie
         thisShow: -1,
         genresName: [],
-        arrayProva: []
+        // genresList: [],
+        arrayProva: [],
+        selectedGenre: '',
+        experimentArray: []
     },
 
     mounted () {
@@ -36,6 +39,8 @@ var app = new Vue ({
                             name: genreName
                         }
                     );
+                    
+                    // this.genresList = this.getFields(this.genresName, 'name');
                 });
             })
     },
@@ -91,6 +96,9 @@ var app = new Vue ({
                     // grab the object from the second array, include it in the object of the 
                     // first array
                     // --------------------------------------------------------------------
+
+                    this.experimentArray = this.arrayProva;
+                    console.log('sperimentiamo', this.experimentArray)
                 });
         },
 
@@ -107,8 +115,7 @@ var app = new Vue ({
 
         // getShowIndex provides the index of shows
         getShowIndex(index) { 
-                this.thisShow = index;
-                console.log(this.thisShow)
+            this.thisShow = index;
         },
 
 
@@ -130,8 +137,31 @@ var app = new Vue ({
         roundUp(num, precision) {
                 precision = Math.pow(10, precision)
                 return Math.ceil(num * precision) / precision
-        }
+        },
 
+        filterAlbums(selectedGenre) {
+            if (selectedGenre == '') {
+                this.experimentArray = this.arrayProva;
+            } else {
+                let showGenreArray = [];
+
+            this.arrayProva.forEach(element => {
+                let showGenre = element.genre_ids;
+                showGenreArray.push(showGenre);   
+            });
+            console.log(showGenreArray);
+            showGenreArray.forEach(element => {
+                if ( element.includes(selectedGenre) ) {
+                    this.experimentArray = this.searchResults.filter(element => {
+                        let thisShow = element.genre_ids;
+                        return thisShow.includes(selectedGenre)
+                    });
+                }
+                    
+            })
+            }
+            
+        }
 
     },
 

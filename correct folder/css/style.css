@@ -163,8 +163,36 @@ main {
     color: white;
     font-size: 40px;
     font-weight: 600;
+    margin-bottom: 20px;
+}
+
+.select-container {
+    width: 100%;
+    text-align: center;
     margin-bottom: 30px;
 }
+
+.select-container label {
+    margin-right: 15px;
+    color: white;
+    font-weight: 600;
+    font-size: 18px;
+}
+
+.select-container select {
+    width: 200px;
+    padding: 5px 50px 5px 10px;
+    font-size: 18px;
+    cursor: pointer;
+    border-radius: 999px;
+    border-width: 1px;
+    border-color: white;
+    border-style: solid;
+}
+
+/* .select-container option {
+    cursor: pointer;
+} */
 
 .search-results {
     display: flex;
@@ -268,6 +296,12 @@ main {
 /* inputs' rules are here on the bottom to avoid 
 override problems */
 input:focus {
+    outline: none;
+    border: 2px solid #db202c;
+    border-radius: 999px;
+}
+
+select:focus {
     outline: none;
     border: 2px solid #db202c;
     border-radius: 999px;
