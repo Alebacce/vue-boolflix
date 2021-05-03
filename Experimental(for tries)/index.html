@@ -42,6 +42,7 @@
                 <!-- select -->
                 <label for="title">Title</label>
                 <select id="title" name="title"
+                @change="filterShows(selectedGenre)"
                 v-model="selectedGenre" >
                 <option value="" selected>All</option>
                     <option v-for="genre in genresName" value="genre" > {{genre.name}} </option>
@@ -89,7 +90,7 @@
                         I risultati della tua ricerca per "{{userSearch}}"
                     </div>
                         <!-- Search Result -->
-                        <ul v-for="(show, index) in searchResults" 
+                        <ul v-for="(show, index) in printFiltered" 
                         v-if="show.poster_path"
                         class="show-info-ul">
 

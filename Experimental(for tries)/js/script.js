@@ -9,7 +9,8 @@ var app = new Vue ({
         // thisMovie takes the index of a movie
         thisShow: -1,
         genresName: [],
-        selectedGenre: ''
+        selectedGenre: '',
+        printFiltered: []
     },
 
     mounted () {
@@ -32,6 +33,7 @@ var app = new Vue ({
                 .then((response) => {
                     const result = response.data.results;
                     this.searchResults = result;
+                    this.printFiltered = this.searchResults;
                     console.log(result);
                     
 
@@ -91,6 +93,23 @@ var app = new Vue ({
         // for( let key in this.genresName) {
         //     console.log(key)
         // }
+
+        // In methods ci vanno solo le funzioni che devono essere invocate
+        filterShows(selectedGenre) {
+            // printFiltered di base è uguale a cds.
+            if( selectedGenre == "" ) {
+                // Se io premo su 'all' allora riassumerà/manterrà il suo valore
+                // di copia di cds
+                this.printFiltered = this.searchResults;
+            } else {
+                // Altrimenti assumerà il valore di cds filtrato.
+                // cds resta intaccato, a cambiare è solo printFiltered, 
+                // il quale si resetta nel caso torniamo su 'all'
+                this.printFiltered = this.searchResults.filter((element) => {
+                return element.genre_ids == selectedGenre;
+            })
+            }
+        }
 
     },
 
