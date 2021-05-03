@@ -8,7 +8,8 @@ var app = new Vue ({
         searchResults: [],
         // thisMovie takes the index of a movie
         thisShow: -1,
-        genresName: []
+        genresName: [],
+        arrayProva: []
     },
 
     mounted () {
@@ -45,33 +46,43 @@ var app = new Vue ({
                     const newArray = this.searchResults.map ((element) => {
                         // console.log('array searcresults element', element.genre_ids);
                         let objectResults = element.genre_ids;
-                        console.log('objectResults', objectResults);
+                        // console.log('objectResults', objectResults);
                         let object = element;
                         // let genres_name = {};
-                        console.log('single-object', object);
+                        // console.log('single-object', object);
                         // console.log('objectResults', objectResults);
                         // objectResults.forEach(id => {
                         //     showGenreId = objectResults.id
                         //     console.log('showGenreId', showGenreId);
                         // })
 
+                        object.genres_name = [];
                         this.genresName.forEach(genre => {
                             // console.log('genre', genre.id);
                             if (objectResults.includes(genre.id) ) {
                                 // object.genres_name = genre.name;
-                                object.genres_name = [];
-                                for(var key in genre) {
-                                    if (key == 'name') {
-                                        console.log('key', genre[key]);
-                                        let keyName = '';
-                                        keyName = keyName + genre[key];
-                                        object.genres_name.splice(0, keyName);
-                                    }
-                                }
+                                
+                                
+                                object.genres_name.push(
+                                    {
+                                        quack: genre.name
+                                    
+                                    }    
+                                    );
+                                
+                                // for(var key in genre) {
+                                //     if (key == 'name') {
+                                //         console.log('key', genre[key]);
+                                //         let keyName = '';
+                                //         keyName = keyName + genre[key];
+                                //         object.genres_name.push(keyName);
+                                //     }
+                                // }
                             }
                             // console.log(this.searchResults);
                         })
-                        console.log(this.searchResults);
+                        // console.log('', object.genres_name)
+                        // console.log(this.searchResults);
                     // })
                     // I suggest you use an array_element.map such that you can access each 
                     // individual element(object) in the first array and with a loop compare 
@@ -81,8 +92,10 @@ var app = new Vue ({
 
                     // this.searchResults.forEach(element => {
                     //     if(this.searchResults.element.id == this.genresName);
+                    return element;
                     })
-                    // return newArray;
+                    this.arrayProva = newArray;
+                    console.log('prova', this.arrayProva);
                 });
         },
 

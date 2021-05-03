@@ -81,7 +81,7 @@
                         I risultati della tua ricerca per "{{userSearch}}"
                     </div>
                         <!-- Search Result -->
-                        <ul v-for="(show, index) in searchResults" 
+                        <ul v-for="(show, index) in arrayProva" 
                         v-if="show.poster_path"
                         class="show-info-ul">
 
@@ -100,13 +100,13 @@
                                 </li>
 
                                 <!-- Movie Genre -->
-                                <!-- <li v-if="show.media_type == 'movie'">
-                                    <ul class="genre-ul">
-                                        <li v-for="genre in movieGenre" class="genres">
-                                            {{ genre }}
-                                        </li>
-                                    </ul>
-                                </li> -->
+                                <li >
+                                        <ul class="genre-ul">
+                                            <li v-for="(element) in arrayProva[index].genres_name" class="genres">
+                                            {{element.quack}}
+                                            </li>
+                                        </ul>
+                                </li>
 
                                 
                                 <!-- Movie Title -->
