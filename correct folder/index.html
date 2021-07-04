@@ -35,7 +35,8 @@
         <header>
             <div class="default-container">
                 <!-- logo -->
-                <div class="logo">
+                <div class="logo"
+                @click=homePage>
                     <img src="img/boolflix-logo.png" alt="Boolflix logo">
                 </div>
                 
@@ -46,6 +47,7 @@
                         <i class="fas fa-search"></i>
                     </div>
                     <input v-model="userSearch" 
+                    @keyup.enter="searchShow()"
                     @keyup="searchShow()"
                     id="movie" 
                     type="text"
@@ -70,90 +72,97 @@
                     <span class="small-text">@Alebacce</span>
                 </div>
                 <div class="except">
-                    *Tranne The Witcher a quanto pare
+                    *Quasi ogni film e serie tv, va a giornate
                 </div>
             </div>
 
             <div v-else class="default-container">
                 <!-- Page With Searches -->
+                <!-- <h2>With duplicates ({{ mergedArray.length }}):</h2> -->
                 <div class="search-results">
                     <div class="search-text">
                         I risultati della tua ricerca per "{{userSearch}}"
                     </div>
-                    <!-- select -->
+
+                    <!-- Select for Tv Shows-->
                     <div class="select-container">
-                        <label for="title">Genere:</label>
-                        <select id="title" name="title" @change="filterAlbums(selectedGenre)" v-model="selectedGenre">
+                        <label for="title">Serie TV:</label>
+                        <select id="title" name="title" @change="filterGenre(selectedGenre)" v-model="selectedGenre">
                             <option value="">All</option>
-                            <option v-for="genre in genresName" :key="genre.id" :value="genre.id">{{genre.name}}</option>
+                            <option v-for="genre in genresList" :key="genre.id" :value="genre.id">{{genre.name}}</option>
                         </select>
                     </div>
 
                         <!-- Search Result -->
                         <ul v-for="(show, index) in experimentArray" 
-                        v-if="show.poster_path"
                         class="show-info-ul">
 
                             
                         
                             <!-- Poster -->
-                            <li v-if="show.media_type == 'tv' || show.media_type == 'movie'" 
+                            <li v-if="show.media_type == 'tv' || show.media_type == 'movie'"
                             class="show-poster"
                             @mouseenter="getShowIndex(index)"
                             @mouseleave="forgotShowIndex()">
-                                <img :src="'https://image.tmdb.org/t/p/w342' + show.poster_path" alt="Image not found">
+                                <img class="posterNull" v-if="show.poster_path == null " src="img/poster-not-available.jpg" :alt="show.tile">
+                                <img v-else :src="'https://image.tmdb.org/t/p/w185' + show.poster_path" :alt="show.tile">
                             <ul class="infos">
+                                
                                 <!-- Media Type: Film or Tv Show -->
                                 <li>
                                     <span class="media-type">{{ getMediaType(show.media_type) }}</span>
                                 </li>
 
+                                <!-- Movie Title -->
+                                <li v-if="show.media_type == 'movie'">
+                                    <span class="show-title">{{ show.title }}</span>
+                                </li>
+                                
+                                <!-- TV Show Title -->
+                                <li v-if="show.media_type == 'tv'">
+                                    <span class="show-title">{{ show.name }}</span>
+                                </li>
+
                                 <!-- Movie Genre -->
-                                <li >
+                                <li>
                                         <ul class="genre-ul">
-                                            <li v-for="(element) in arrayProva[index].genres_name" class="genres">
+                                            <li v-for="(element) in experimentArray[index].genres_name" class="genres">
                                             {{element.genre}}
                                             </li>
                                         </ul>
                                 </li>
 
-                                
-                                <!-- Movie Title -->
-                                <li v-if="show.media_type == 'movie'">
-                                    <span class="info-text">Titolo:</span> {{ show.title }}
-                                </li>
-                            
-                                <!-- TV Show Title -->
+                                <!-- TV Show Genre
                                 <li v-if="show.media_type == 'tv'">
-                                    <span class="info-text">Titolo:</span> {{ show.name }}
-                                </li>
+                                    <ul class="genre-ul">
+                                        <li v-for="(element) in arrayProva[index].genres_name" class="genres">
+                                            {{element.genre}}
+                                        </li>
+                                    </ul>
+                                </li> -->
+
                             
-                                <!-- Movie Original Title -->
+                            
+                                <!-- Movie Original Title
                                 <li v-if="show.media_type == 'movie' && show.original_title != show.title">
-                                    <span class="info-text">Titolo originale</span> {{ show.original_title }}
+                                    <span class="info-text">Titolo originale</span><br> {{ show.original_title }}
                                 </li>
                             
-                                <!-- TV Show Original Title -->
+                                TV Show Original Title
                                 <li v-if="show.media_type == 'tv' && show.original_name != show.name">
-                                    <span class="info-text">Titolo originale:</span> {{ show.original_name }}
-                                </li>
+                                    <span class="info-text">Titolo originale:</span><br> {{ show.original_name }}
+                                </li> -->
                             
-                                <!-- Original Language -->
-                                <li v-if="show.media_type == 'tv' || show.media_type == 'movie'">
-                                    <span class="info-text original-audio">Audio originale:</span>
-                                    <span class="flag-icon" :class="'flag-icon-' + lang[show.original_language]"></span>
-                                </li>
                             
-                                <!-- Movie Year -->
+                                <!-- Movie Year
                                 <li v-if="show.media_type == 'movie'">
-                                    <span class="info-text">Anno:</span>
                                     {{show.release_date.slice(0, 4)}}
                                 </li>
                             
-                                <!-- TV Show Year -->
+                                TV Show Year
                                 <li v-if="show.media_type == 'tv'">
                                     {{show.first_air_date.slice(0, 4)}}
-                                </li>
+                                </li> -->
                             
                                 <!-- Vote Stars -->
                                 <li v-if="show.media_type == 'tv' || show.media_type == 'movie'">
@@ -188,10 +197,25 @@
                                 </li>
                             
                                 <!-- Overview -->
-                                <li v-if="show.media_type == 'tv' || show.media_type == 'movie'">
+                                <li class="overview" v-if="show.media_type == 'tv' || show.media_type == 'movie'">
                                     {{ show.overview }}
                                 </li>
+
+                                <!-- Original Language -->
+                                <li v-if="show.media_type == 'tv' || show.media_type == 'movie'">
+                                    <span class="info-text original-audio">Audio originale:</span>
+                                    <span class="flag-icon" :class="'flag-icon-' + lang[show.original_language]"></span>
+                                </li>
                             </ul>
+                            </li>
+
+                            <li v-else class="show-poster">
+                                <img class="posterNull" src="img/poster-not-available.jpg" alt="Info not available">
+                                <ul class="infos">
+                                    <li class="show-title">
+                                        Purtroppo non esistono informazioni non disponibili per questo show
+                                    </li>
+                                </ul>
                             </li>
                         </ul>
                         <!--END Search Result -->

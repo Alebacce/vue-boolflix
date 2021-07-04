@@ -10,15 +10,16 @@ var app = new Vue ({
         searchResults: [],
         // thisMovie takes the index of a movie
         thisShow: -1,
-        genresName: [],
-        // genresList: [],
+        // genresList contains all genres, both movies and TV shows
+        genresList: [],
         arrayProva: [],
+        // selectedGenre is the v-model associated to the select in HTML
         selectedGenre: '',
-        experimentArray: []
+        experimentArray: [],
     },
 
     mounted () {
-        // Obtaine genres and put them in an re-usable array 
+        // Obtaine movies and Tv shows' genres and put them in an re-usable array 
         axios
             .get(`https://api.themoviedb.org/3/genre/movie/list`, {
                 params: {
@@ -28,21 +29,40 @@ var app = new Vue ({
             })
             .then((response) => {
                 const genres = response.data.genres;
-                // console.log(genres);
-                genres.forEach(element => {
-                    let genreId = element.id;
-                    let genreName = element.name;
-                    // console.log(genreName);
-                    this.genresName.push( 
-                        {
-                            id: genreId, 
-                            name: genreName
-                        }
-                    );
-                    
-                    // this.genresList = this.getFields(this.genresName, 'name');
-                });
+                this.genresList = genres;
             })
+
+        axios
+            .get(` https://api.themoviedb.org/3/genre/tv/list`, {
+                params: {
+                            api_key: this.apiKey,
+                            language: this.userLanguage,
+                        },
+            })
+            .then((response) => {
+                const genres = response.data.genres;
+                genres.forEach(element => {
+                    if(!this.genresList.some(genre => genre.name === element.name)){
+                        console.log(this.genresList.some(genre => genre.name === element.name))
+                        this.genresList.push(element)
+                    }
+                });
+
+                // Putting the aray in alphabetical order
+                this.genresList.sort((a, b) => {
+                        if (a.name < b.name) {
+                            return -1; 
+                        }
+                        if (a.name > b.name) {
+                            return 1; 
+                        }
+                        return 0;
+                    })
+
+                // console.log('lista generi', this.genresList);
+
+            })
+
     },
 
     methods: {
@@ -59,28 +79,51 @@ var app = new Vue ({
                 .then((response) => {
                     const result = response.data.results;
                     this.searchResults = result;
-                    console.log(result);
+                    // console.log(result);
 
                     // I insert a new property inside the array obtained right now,
                     // this property provides me genres name
+                    
                     const newArray = this.searchResults.map ((element) => {
-                        let objectResults = element.genre_ids;
+                        let objectResults = element.genre_ids || [];
+                        // console.log(objectResults);
                         let object = element;
                         // object.genres_name it's an empty array where I saves in my results
                         object.genres_name = [];
-                        this.genresName.forEach(genre => {
+                        // if ( element.media_type == 'movie') {
+                            this.genresList.forEach(genre => {
                             // ids of genres are the same everywhere. If the ones in the 
                             // genresName array are included in each element.genre_ids
                             // then push the name as an object, so it's printable in HTML
-                            if (objectResults.includes(genre.id) ) {
+                            // console.log('genre.id', genre.id)
+                            if (objectResults.includes(genre.id)) {
                                 object.genres_name.push(
                                     {
                                         genre: genre.name
                                     
                                     }    
                                     );
-                            }
-                        }) 
+                                } else if (!objectResults.includes(genre.id)) {
+                                    object.genre_name = [];
+                                }
+                            })
+                            
+                        // DO THE SAME FOR TV
+                        // } else if (element.media_type == 'tv') {
+                        //     this.genresList.forEach(genre => {
+                        //     // ids of genres are the same everywhere. If the ones in the 
+                        //     // genresName array are included in each element.genre_ids
+                        //     // then push the name as an object, so it's printable in HTML
+                        //     if (objectResults.includes(genre.id) ) {
+                        //         object.genres_name.push(
+                        //             {
+                        //                 genre: genre.name
+                                    
+                        //             }    
+                        //             );
+                        //         }
+                        //     })
+                        // }                     
                     
                     // return the element updated
                     return object;
@@ -98,7 +141,7 @@ var app = new Vue ({
                     // --------------------------------------------------------------------
 
                     this.experimentArray = this.arrayProva;
-                    console.log('sperimentiamo', this.experimentArray)
+                    // console.log('sperimentiamo', this.experimentArray)
                 });
         },
 
@@ -139,18 +182,23 @@ var app = new Vue ({
                 return Math.ceil(num * precision) / precision
         },
 
-        filterAlbums(selectedGenre) {
+        filterGenre(selectedGenre) {
             if (selectedGenre == '') {
                 this.experimentArray = this.arrayProva;
             } else {
-                let showGenreArray = [];
+                let movieGenreArray = [];
+                // let tvGenreArray = [];
 
             this.arrayProva.forEach(element => {
                 let showGenre = element.genre_ids;
-                showGenreArray.push(showGenre);   
+                // if (element.media_type == 'movie')  {
+                    movieGenreArray.push(showGenre);
+                // } else if (element.media_type == 'tv' ) {
+                //     tvGenreArray.push(showGenre);
+                // }
             });
-            console.log(showGenreArray);
-            showGenreArray.forEach(element => {
+            // console.log('movieGenreArray', movieGenreArray);
+            movieGenreArray.forEach(element => {
                 if ( element.includes(selectedGenre) ) {
                     this.experimentArray = this.searchResults.filter(element => {
                         let thisShow = element.genre_ids;
@@ -159,8 +207,24 @@ var app = new Vue ({
                 }
                     
             })
+
+            // console.log('tvGenreArray', tvGenreArray);
+            // tvGenreArray.forEach(element => {
+            //     if ( element.includes(selectedGenre) ) {
+            //         this.experimentArray = this.searchResults.filter(element => {
+            //             let thisShow = element.genre_ids;
+            //             return thisShow.includes(selectedGenre)
+            //         });
+            //     }
+                    
+            // })
             }
             
+        },
+
+        homePage() {
+            this.searchResults = [];
+            this.userSearch = "";
         }
 
     },
